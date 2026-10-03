@@ -11,10 +11,11 @@ const imageFolderPath = process.env.IMAGE_PATH; // Update with your folder path
 
 console.log('using file path: ', audioFolderPath);
 
-app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from 'public' directory
-app.use('/audio', express.static(audioFolderPath));
-app.use('/images', express.static(imageFolderPath));
 app.use(cors());
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from 'public' directory
+// Let browsers cache songs and cover art instead of re-downloading them on every visit
+app.use('/audio', express.static(audioFolderPath, { maxAge: '1d' }));
+app.use('/images', express.static(imageFolderPath, { maxAge: '1d' }));
 
 // Endpoint to list audio files
 app.get('/audio-files', (req, res) => {
