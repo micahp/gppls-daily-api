@@ -19,14 +19,11 @@ app.use('/images', express.static(imageFolderPath, { maxAge: '1d' }));
 
 // Endpoint to list audio files
 app.get('/audio-files', (req, res) => {
-    console.log('get : ', req.url);
     fs.readdir(audioFolderPath, (err, files) => {
         if (err) {
             res.status(500).send('Error reading the directory');
             return;
         }
-        console.log('audio files found: ', files);
-
         const audioFiles = files.filter(file => /\.(mp3|wav)$/i.test(file)); // Filter for .mp3 or .wav files (case-insensitive)
         res.json(audioFiles);
     });
@@ -34,13 +31,11 @@ app.get('/audio-files', (req, res) => {
 
 // endpoint to list image files
 app.get('/image-files', (req, res) => {
-    console.log('get : ', req.url);
     fs.readdir(imageFolderPath, (err, files) => {
         if (err) {
             res.status(500).send('Error reading the directory');
             return;
         }
-        console.log('image files found: ', files);
         res.json(files);
     });
 });
